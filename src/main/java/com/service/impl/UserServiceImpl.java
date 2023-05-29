@@ -1,11 +1,14 @@
 package com.service.impl;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.mapper.Mapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.entity.User;
-import com.entity.Warehouse;
-import com.mapper.UserMapper;
-import com.mapper.WareMapper;
+import com.entity.*;
+import com.mapper.*;
+import com.pojo.*;
+import com.pojo.Address;
+import com.pojo.Billing;
+import com.pojo.Shipment;
 import com.service.UserService;
 import com.vo.R;
 import com.vo.param.*;
@@ -13,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
+import java.util.Date;
 import java.util.List;
 
 
@@ -23,58 +27,63 @@ import java.util.List;
 @Service
 //@Transactional
 @AllArgsConstructor
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
-    private final UserMapper userMapper;
+public abstract class UserServiceImpl implements UserService {
     @Autowired
-    private final WareMapper wareMapper;
+    private final ShipperAccountMapper userMapper;
+    @Autowired
+    private  final AddressMapper addressMapper;
+    @Autowired
+    private final ShipmentMapper shipmentMapper;
+    @Autowired
+    private  final BillingMapper billingMapper;
 
-    // 登陆
+    // 登录
     @Override
     public R login(LoginParam loginParam){
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-            queryWrapper.eq("username",loginParam.getUsername()).eq("password",loginParam.getPassword());
-            User user = userMapper.selectOne(queryWrapper);
-            R r= new R();
-            if (user != null && user.getPassword().equals(loginParam.getPassword())) {
-                QueryWrapper<Warehouse> queryWrapper1=new QueryWrapper<>();
-                System.out.println(user.getUsername());
-                queryWrapper1.eq("username",user.getUsername());
-                List<Warehouse> Ware = wareMapper.selectList(queryWrapper1);//查询用户是否创建过仓库System.out.println(wareMapper.exists(queryWrapper1));
-               String token= user.getToken(user);
-               r.data("user_id","0");
-               r.data("token",token);
-               r.data("status_code",true);
-                System.out.println(Ware.size());
-                if(!Ware.isEmpty()) {
-                    r.data("warehouse",true);//旧用户
-                } else {
-                    r.data("warehouse",false);//新用户
-                }
-                return r;
-            } else {
-                r.data("warehouse",false);
+        QueryWrapper<Shipperaccount> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",loginParam.getUsername()).eq("password",loginParam.getPassword());
+        R r= new R();
+        List<Shipperaccount> shipper = userMapper.selectList(queryWrapper);//
+        if(shipper!=null) {
+            String token = getToken(loginParam);
+            r.data("token", token);
+            r.data("status_code", true);
+            return  r;
+        }
+        else
+        {
                 r.data("status_code",false);
-                r.data("user_id",0);
                 r.data("token","");
                 return r;
-            }
+        }
     }
-
     // 注册
     @Override
-    public R register(RegisterParam registerParam) {
+    public R register(ShipperAccount registerParam) {
         R r= new R();
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("username",registerParam.getUsername());
+        Address address=new Address();
+        QueryWrapper<Shipperaccount> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",registerParam.getId());
         boolean u = userMapper.exists(queryWrapper);
         System.out.println(u);
         if(!u)
         {
-            User user=new User();
-            user.setUsername(registerParam.getUsername());
-            user.setPassword(registerParam.getPassword());
-            userMapper.insert(user);
-            r.data("status_code",true);
+            Date now = new Date();
+            Shipperaccount shipperAccount=new Shipperaccount();
+            shipperAccount.setPassword(registerParam.getPassword());
+            int insert = addressMapper.insert(registerParam.getAddress());
+            shipperAccount.setPassword(registerParam.getPassword());
+           shipperAccount.setType(registerParam.getType());
+           shipperAccount.setDescription(registerParam.getDescription());
+           shipperAccount.setContactName(registerParam.getAddress().getContactName());
+           shipperAccount.setSettings(registerParam.getSettings());
+           shipperAccount.setSlug(registerParam.getSlug());
+           shipperAccount.setId(registerParam.getId());
+           shipperAccount.setTimezone(registerParam.getTimezone());
+           shipperAccount.setCreatedAt(now.toString());
+           shipperAccount.setUpdatedAt(now.toString());
+           userMapper.insert(shipperAccount);
+            r.data("status_code",insert);
             return r;
         }
         else {
@@ -83,86 +92,61 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
     }
     //修改密码
-    @Override
-    public R changePassword(ChangeParam changeParam) {
-        R r= new R();
-        // 鉴权，获取username
-        String username = JWT.decode(changeParam.getToken()).getAudience().get(0);
-        System.out.println(username);
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("username",username);
-        User user = userMapper.selectOne(queryWrapper);
-        // 判断该username是否存在
-        if(user!= null && user.getPassword().equals(changeParam.getPre_password())){
-            UpdateWrapper<User> updateWrapper=new UpdateWrapper<>();
-            updateWrapper.eq("username",username).set("password",changeParam.getNew_password());
-            userMapper.update(user,updateWrapper);
-            r.data("status_code",true);
-            return r;
-        }
-        else {
-            r.data("status_code",false);
-            return r;
-        }
-    }
 
-    // 主页请求用户信息
+
     @Override
-    public R getInformation(String token) {
-        R r = new R();
-        if(token.equals("")){
-            r.data("status_code",false);
-            return r;
-        }
-        // 鉴权，获取username
-        String username = JWT.decode(token).getAudience().get(0);
-        System.out.println(username);
-        // 判断该username是否存在
-        if(username != null){
-            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("username",username);
-            User user = userMapper.selectOne(queryWrapper);
-            String phone = user.getPhone();
-            String address = user.getAddress();
-            String total_cost = user.getTotalcost();
-            r.data("status_code",true);
-            r.data("user_name",username);
-            r.data("phone",phone);
-            r.data("address",address);
-            r.data("total_cost",total_cost);
-        }
+    public R tracking(String itemid) {
+        R r= new R();
+        QueryWrapper<Shipment> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<com.pojo.Address> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper.eq("parcels",itemid);
+        Shipment shipment= (Shipment) shipmentMapper.selectList(queryWrapper);
+        queryWrapper1.eq("id",shipment.getReturnTo());
+        com.pojo.Address address=addressMapper.selectOne(queryWrapper1);
+        r.data("address",address);
         return r;
     }
-    //修改个人信息
-    @Override
-    public R changeInformation(ChangeInfoParam changeInfoParam) {
-        R r= new R();
-        // 鉴权，获取username
-        String username = JWT.decode(changeInfoParam.getToken()).getAudience().get(0);
-        System.out.println(username);
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("username",username);
-        User user = userMapper.selectOne(queryWrapper);
-        // 判断该username是否存在
-        if(user!= null ){
-            UpdateWrapper<User> updateWrapper=new UpdateWrapper<>();
-            updateWrapper.eq("username",username);
-            if(changeInfoParam.getPhone()!=null)
-            {
-                updateWrapper.set("phone",changeInfoParam.getPhone());
-                System.out.println(changeInfoParam.getPhone());
-           }
-            if ( changeInfoParam.getAddress()!=null) {
-                System.out.println(changeInfoParam.getAddress());
-                updateWrapper.set("address",changeInfoParam.getAddress());
-            }
-            userMapper.update(user,updateWrapper);
-            r.data("status_code",true);
-            return r;
-        }
-        else {
-            r.data("status_code",false);
-            return r;
-        }
+
+    public String getToken(LoginParam user) {
+        String token="";
+        token= JWT.create().withAudience(user.getUsername())
+                .sign(Algorithm.HMAC256(user.getPassword()));
+        return token;
     }
+    // 主页请求用户信息
+    public Shipperaccount findUserById(String id)
+    {
+        Shipperaccount shipperaccount;
+        QueryWrapper<Shipperaccount> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        shipperaccount= userMapper.selectOne(queryWrapper);
+        return shipperaccount;
+
+    }
+    @Override
+    public R createOrder(com.entity.Shipment shipment, String id) {
+        R r = new R();
+        Billing billing=new Billing();
+        QueryWrapper<com.pojo.Address> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",shipment.getShipFrom());
+       Shipment shipment1=new com.pojo.Shipment();
+       shipment1.setParcels(shipment.getParcels()[0].getItems()[0].getItemid());
+       shipment1.setReturnTo(shipment.getReturnTo().toString());
+       shipment1.setShipFrom(shipment.getShipFrom().toString());
+       shipment1.setShipTo(shipment.getShipTo().toString());
+       shipment1.setType(shipment.getType());
+       com.pojo.Address addressfrom=addressMapper.selectOne(queryWrapper);
+        billing.setCountry(addressfrom.getCountry());
+        billing.setAccountNumber(id);
+        billing.setPaidBy(id);
+       shipment1.setDeliveryInstructions(shipment.getDeliveryInstructions());
+       int i=shipmentMapper.insert(shipment1);
+          billingMapper.insert(billing);
+       r.data("status_code",i);
+        return r;
+    }
+
+    //修改个人信息
+
+
 }

@@ -1,10 +1,9 @@
 package com.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.entity.Place;
+import com.pojo.Shipment;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface PlaceMapper  extends BaseMapper<Place> {
-
+public interface ShipmentMapper extends BaseMapper<Shipment> {
 }

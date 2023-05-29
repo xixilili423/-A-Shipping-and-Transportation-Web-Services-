@@ -1,13 +1,13 @@
 package com.controller;
 
+import com.annotation.UserLoginToken;
+import com.entity.Shipment;
+import com.entity.ShipperAccount;
 import com.service.UserService;
 import com.vo.R;
 import com.vo.param.*;
 import lombok.AllArgsConstructor;
-import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.PublicKey;
 
 /**
  * FileName:  UserController
@@ -23,6 +23,7 @@ public class UserController {
     private final UserService userService;
 
     // 登陆--post保存
+
     @PostMapping("login")
     public R login(@RequestBody LoginParam loginParam) {
         return userService.login(loginParam);
@@ -30,21 +31,18 @@ public class UserController {
 
     // 注册--post保存
     @PostMapping("register")
-    public R register(@RequestBody RegisterParam registerParam) {
-        return userService.register(registerParam);
+    public R register(@RequestBody ShipperAccount shipperAccount) {
+        return userService.register(shipperAccount);
     }
-
-    // 获取主页信息--get
-    @GetMapping("information")
-    public R getInformation(@RequestParam(value="token") String token) { return userService.getInformation(token); }
-    @PostMapping("changePassword")
-    public R changePassword(@RequestBody ChangeParam changeParam){
-
-        return userService.changePassword(changeParam);
-    }
-    @PostMapping("changeInfo")
-    public R changeInformation(@RequestBody ChangeInfoParam changeinfoParam)
+    @UserLoginToken
+    @PostMapping("tracking")
+    public R  tracking(@RequestBody String itemid){
+        return userService.tracking(itemid);
+   }
+    @UserLoginToken
+    @PostMapping("createOrder")
+    public R createOrder(@RequestBody Shipment shipment,@RequestHeader(name = "id")String id)
     {
-       return  userService.changeInformation(changeinfoParam);
+       return  userService.createOrder(shipment,id);
     }
 }
