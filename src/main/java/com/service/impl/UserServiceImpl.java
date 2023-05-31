@@ -58,7 +58,7 @@ public  class UserServiceImpl implements UserService {
     @Override
     public R register(ShipperAccount registerParam) {
         R r= new R();
-        Address address=new Address();
+        r.data("status_code",false);
         QueryWrapper<Shipperaccount> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("id",registerParam.getId());
         boolean u = userMapper.exists(queryWrapper);
@@ -68,7 +68,7 @@ public  class UserServiceImpl implements UserService {
             Date now = new Date();
             Shipperaccount shipperAccount=new Shipperaccount();
             shipperAccount.setPassword(registerParam.getPassword());
-            int insert = addressMapper.insert(registerParam.getAddress());
+            int i1 = addressMapper.insert(registerParam.getAddress());
             shipperAccount.setPassword(registerParam.getPassword());
            shipperAccount.setType(registerParam.getType());
            shipperAccount.setDescription(registerParam.getDescription());
@@ -79,12 +79,14 @@ public  class UserServiceImpl implements UserService {
            shipperAccount.setTimezone(registerParam.getTimezone());
            shipperAccount.setCreatedAt(now.toString());
            shipperAccount.setUpdatedAt(now.toString());
-           userMapper.insert(shipperAccount);
-            r.data("status_code",insert);
-            return r;
+           int i2=userMapper.insert(shipperAccount);
+           if(i2==1&&i1==1) {
+               r.data("status_code", true);
+               return r;
+           }
+           return  r;
         }
         else {
-            r.data("status_code",false);
             return r;
         }
     }
@@ -117,7 +119,7 @@ public  class UserServiceImpl implements UserService {
     }
 
     public String getToken(LoginParam user) {
-        String token="";
+        String token;
         token= JWT.create().withAudience(user.getUsername())
                 .sign(Algorithm.HMAC256(user.getPassword()));
         return token;
@@ -135,6 +137,7 @@ public  class UserServiceImpl implements UserService {
     @Override
     public R createOrder( com.pojo.Shipment shipment, String id) {
         R r = new R();
+        r.data("status_code",false);
         Billing billing=new Billing();
         QueryWrapper<com.pojo.Address> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",shipment.getShipFrom());
@@ -153,12 +156,15 @@ public  class UserServiceImpl implements UserService {
 
        shipment1.setDeliveryInstructions(shipment.getDeliveryInstructions());
        int i=shipmentMapper.insert(shipment1);
-          billingMapper.insert(billing);
-       r.data("status_code",i);
+       billingMapper.insert(billing);
+        if( i==1) {
+            r.data("status_code", true);
+            return r;
+        }
         return r;
     }
 
-    //修改个人信息
+    //创建订单
 
 
 }
