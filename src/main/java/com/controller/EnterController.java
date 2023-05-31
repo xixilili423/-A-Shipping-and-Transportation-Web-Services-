@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/other")
 @CrossOrigin
 public class EnterController {
-
+/**
     @Autowired
     private EnterService enterService;
 
@@ -31,5 +31,5 @@ public class EnterController {
     @PostMapping("checkParcel")
     public R checkParcel(@RequestBody CheckParcelParam checkParcelParam) { return enterService.checkParcel(checkParcelParam); }
 //
-
+*/
 }

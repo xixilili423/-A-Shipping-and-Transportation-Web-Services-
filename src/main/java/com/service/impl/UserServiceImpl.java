@@ -1,21 +1,19 @@
 package com.service.impl;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.Mapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.entity.*;
 import com.mapper.*;
 import com.pojo.*;
 import com.pojo.Address;
 import com.pojo.Billing;
 import com.pojo.Shipment;
-import com.service.UserService;
 import com.vo.R;
 import com.vo.param.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
+import com.service.*;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +23,8 @@ import java.util.List;
  * Date: 2023/04/13
  */
 @Service
-//@Transactional
 @AllArgsConstructor
-public abstract class UserServiceImpl implements UserService {
+public  class UserServiceImpl implements UserService {
     @Autowired
     private final ShipperAccountMapper userMapper;
     @Autowired
@@ -91,20 +88,32 @@ public abstract class UserServiceImpl implements UserService {
             return r;
         }
     }
+
+    @Override
+    public R Billing(com.entity.Billing billing) {
+        return null;
+    }
     //修改密码
 
 
     @Override
     public R tracking(String itemid) {
         R r= new R();
+        r.data("status_code",false);
         QueryWrapper<Shipment> queryWrapper = new QueryWrapper<>();
         QueryWrapper<com.pojo.Address> queryWrapper1 = new QueryWrapper<>();
         queryWrapper.eq("parcels",itemid);
-        Shipment shipment= (Shipment) shipmentMapper.selectList(queryWrapper);
-        queryWrapper1.eq("id",shipment.getReturnTo());
-        com.pojo.Address address=addressMapper.selectOne(queryWrapper1);
-        r.data("address",address);
-        return r;
+        Shipment shipment= shipmentMapper.selectOne(queryWrapper);
+        if(shipment!=null) {
+            queryWrapper1.eq("id", shipment.getReturnTo());
+            com.pojo.Address address = addressMapper.selectOne(queryWrapper1);
+            if (address != null) {
+                r.data("address", address);
+                return r;
+            }
+        }
+       r.setMessage("记录不存在");
+       return r;
     }
 
     public String getToken(LoginParam user) {
@@ -124,21 +133,24 @@ public abstract class UserServiceImpl implements UserService {
 
     }
     @Override
-    public R createOrder(com.entity.Shipment shipment, String id) {
+    public R createOrder( com.pojo.Shipment shipment, String id) {
         R r = new R();
         Billing billing=new Billing();
         QueryWrapper<com.pojo.Address> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",shipment.getShipFrom());
        Shipment shipment1=new com.pojo.Shipment();
-       shipment1.setParcels(shipment.getParcels()[0].getItems()[0].getItemid());
-       shipment1.setReturnTo(shipment.getReturnTo().toString());
-       shipment1.setShipFrom(shipment.getShipFrom().toString());
-       shipment1.setShipTo(shipment.getShipTo().toString());
+       shipment1.setParcels(shipment.getParcels());
+       shipment1.setReturnTo(shipment.getReturnTo());
+       shipment1.setShipFrom(shipment.getShipFrom());
+       shipment1.setShipTo(shipment.getShipTo());
        shipment1.setType(shipment.getType());
        com.pojo.Address addressfrom=addressMapper.selectOne(queryWrapper);
-        billing.setCountry(addressfrom.getCountry());
-        billing.setAccountNumber(id);
-        billing.setPaidBy(id);
+       if(addressfrom!=null) {
+              billing.setCountry(addressfrom.getCountry());
+          }
+              billing.setAccountNumber(id);
+              billing.setPaidBy(id);
+
        shipment1.setDeliveryInstructions(shipment.getDeliveryInstructions());
        int i=shipmentMapper.insert(shipment1);
           billingMapper.insert(billing);

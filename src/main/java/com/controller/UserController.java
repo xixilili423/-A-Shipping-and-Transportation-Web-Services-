@@ -1,5 +1,4 @@
 package com.controller;
-
 import com.annotation.UserLoginToken;
 import com.entity.Shipment;
 import com.entity.ShipperAccount;
@@ -7,6 +6,7 @@ import com.service.UserService;
 import com.vo.R;
 import com.vo.param.*;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 //@CrossOrigin
 @AllArgsConstructor
 public class UserController {
-
+    @Autowired
     private final UserService userService;
 
     // 登陆--post保存
@@ -36,12 +36,12 @@ public class UserController {
     }
     @UserLoginToken
     @PostMapping("tracking")
-    public R  tracking(@RequestBody String itemid){
+    public R  tracking(@RequestBody String itemid,@RequestAttribute(name = "id")String id){
         return userService.tracking(itemid);
    }
     @UserLoginToken
     @PostMapping("createOrder")
-    public R createOrder(@RequestBody Shipment shipment,@RequestHeader(name = "id")String id)
+    public R createOrder(@RequestBody com.pojo.Shipment shipment,@RequestAttribute(name = "id")String id)
     {
        return  userService.createOrder(shipment,id);
     }

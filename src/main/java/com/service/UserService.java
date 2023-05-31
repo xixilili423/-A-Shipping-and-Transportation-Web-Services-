@@ -9,19 +9,7 @@ import com.pojo.Shipperaccount;
 import com.vo.R;
 import com.vo.param.*;
 
-//@Service
-//public class UserService {
-//
-//    @Autowired
-//    private Usermapper usermapper=(Usermapper)  ApplicationContextHelperUtil.getBean(Usermapper.class);
-//    public boolean Login(user user1){
-//        QueryWrapper<user> userQueryWrapper = new QueryWrapper<>();
-//        userQueryWrapper.eq("email",user1.getEmail()).eq("password",user1.getPassword());
-//        return usermapper.equals(userQueryWrapper);
-//    }
-//}
-
-    public interface UserService extends IService<User> {
+    public interface UserService {
     /**
      * 1.登陆
      *
@@ -54,7 +42,7 @@ import com.vo.param.*;
      * @get getInformation(手机号，所属中转，token)
      * @return
      */
-    R createOrder(Shipment shipment, String id);
+    R createOrder(com.pojo.Shipment shipment, String id);
    Shipperaccount findUserById(String username);
 
 
