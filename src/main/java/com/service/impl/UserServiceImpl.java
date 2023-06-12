@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.entity.*;
 import com.mapper.*;
 import com.pojo.*;
-import com.pojo.Address;
 import com.pojo.Billing;
 import com.pojo.Shipment;
 import com.vo.R;
@@ -146,7 +145,7 @@ public  class UserServiceImpl implements UserService {
        shipment1.setReturnTo(shipment.getReturnTo());
        shipment1.setShipFrom(shipment.getShipFrom());
        shipment1.setShipTo(shipment.getShipTo());
-       shipment1.setType(shipment.getType());
+       shipment1.setServicetype(shipment.getServicetype());
        com.pojo.Address addressfrom=addressMapper.selectOne(queryWrapper);
        if(addressfrom!=null) {
               billing.setCountry(addressfrom.getCountry());

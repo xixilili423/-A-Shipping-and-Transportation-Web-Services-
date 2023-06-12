@@ -3,22 +3,12 @@ package com.pojo;
 
 public class Shipment {
 
-  private String deliveryinstructions;
+
   private String returnto;
   private String shipfrom;
   private String shipto;
-  private String type;
+  private String servicetype;
   private String parcels;
-
-
-  public String getDeliveryInstructions() {
-    return deliveryinstructions;
-  }
-
-  public void setDeliveryInstructions(String deliveryinstructions) {
-    this.deliveryinstructions = deliveryinstructions;
-  }
-
 
   public String getReturnTo() {
     return returnto;
@@ -47,12 +37,12 @@ public class Shipment {
   }
 
 
-  public String getType() {
-    return type;
+  public String getServicetype() {
+    return servicetype;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setServicetype(String servicetype) {
+    this.servicetype = servicetype;
   }
 
 
