@@ -17,25 +17,25 @@ public class Shipment {
     return returnto;
   }
 
-  public void setReturnTo(String returnTo) {
+  public void setReturnTo(String returnto) {
     this.returnto = returnto;
   }
 
 
-  public String getShipFrom() {
+  public String getShipfrom() {
     return shipfrom;
   }
 
-  public void setShipFrom(String shipFrom) {
+  public void setShipfrom(String shipfrom) {
     this.shipfrom = shipfrom;
   }
 
 
-  public String getShipTo() {
+  public String getShipto() {
     return shipto;
   }
 
-  public void setShipTo(String shipTo) {
+  public void setShipto(String shipto) {
     this.shipto = shipto;
   }
 

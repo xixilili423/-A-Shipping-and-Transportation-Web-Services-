@@ -4,11 +4,11 @@ package com.vo.param;
 
 @lombok.Data
 public class CreateOrderParam {
-    private String deliveryInstructions;
+    private String deliveryinstructions;
     private Parcels parcels;
-    private String returnTo;
-    private String shipFrom;
-    private String shipTo;
+    private String returnto;
+    private String shipfrom;
+    private String shipto;
     private String type;
 }
 
