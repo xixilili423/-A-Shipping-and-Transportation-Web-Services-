@@ -1,10 +1,6 @@
 package com.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.entity.Billing;
-import com.entity.Shipment;
-import com.entity.ShipperAccount;
-import com.entity.User;
 import com.pojo.Shipperaccount;
 import com.vo.R;
 import com.vo.param.*;
@@ -29,9 +25,10 @@ import com.vo.param.*;
      * @get getInformation(旧密码，新密码，token)
      * @return
      */
-    R Billing(Billing billing);
+    R Billing(String accountnumber);
 
-    /**
+
+        /**
      * 4.主页信息获取
      * @get getInformation(token)
      * @return

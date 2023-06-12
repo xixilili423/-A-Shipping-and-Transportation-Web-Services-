@@ -1,7 +1,6 @@
 package com.controller;
+import com.annotation.PassToken;
 import com.annotation.UserLoginToken;
-import com.entity.Shipment;
-import com.entity.ShipperAccount;
 import com.service.UserService;
 import com.vo.R;
 import com.vo.param.*;
@@ -25,14 +24,14 @@ public class UserController {
     // 登陆--post保存
 
     @PostMapping("login")
-    @UserLoginToken
+    @PassToken
     public R login(@RequestBody LoginParam loginParam) {
         return userService.login(loginParam);
     }
 
     // 注册--post保存
     @PostMapping("register")
-    @UserLoginToken
+    @PassToken
     public R register(@RequestBody RegisterParam registerParam) {
         return userService.register(registerParam);
     }
@@ -48,5 +47,11 @@ public class UserController {
     public R createOrder(@RequestBody CreateOrderParam createOrderParam,@RequestAttribute("id")String id)
     {
        return  userService.createOrder(createOrderParam,id);
+    }
+    @PostMapping("billing")
+    @UserLoginToken
+ public R billing (@RequestBody String accountnumber,@RequestAttribute("id") String id)
+    {
+        return  userService.Billing(accountnumber);
     }
 }

@@ -7,7 +7,6 @@ package com.entity;
  */
 @lombok.Data
 public class Customs {
-    private Billing billing;
     private Eei eei;
     private Address importerAddress;
     private Passport passport;

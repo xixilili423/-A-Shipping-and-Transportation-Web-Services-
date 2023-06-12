@@ -2,7 +2,6 @@
 
 package com.entity;
 
-import com.pojo.Address;
 
 /**
  * ApifoxModel

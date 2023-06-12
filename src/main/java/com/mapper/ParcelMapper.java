@@ -1,11 +1,11 @@
 package com.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pojo.Address;
+import com.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface AddressMapper extends BaseMapper<Address> {
-
+public interface ParcelMapper extends BaseMapper<Parcel> {
 
 }

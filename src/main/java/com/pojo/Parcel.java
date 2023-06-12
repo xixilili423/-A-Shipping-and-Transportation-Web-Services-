@@ -1,25 +1,24 @@
 package com.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
-@Data
-@TableName("parcel")
 public class Parcel {
 
   private String boxtype;
   private String description;
   private String dimension;
-  private String itemsid;
+  private String parcelsid;
   private String weight;
+  private String quantity;
 
-  public String getBoxType() {
+
+  public String getBoxtype() {
     return boxtype;
   }
 
-  public void setBoxType(String boxtype) {
+  public void setBoxtype(String boxtype) {
     this.boxtype = boxtype;
   }
+
 
   public String getDescription() {
     return description;
@@ -39,12 +38,12 @@ public class Parcel {
   }
 
 
-  public String getItemsid() {
-    return itemsid;
+  public String getParcelsid() {
+    return parcelsid;
   }
 
-  public void setItemsid(String items) {
-    this.itemsid = items;
+  public void setParcelsid(String parcelsid) {
+    this.parcelsid = parcelsid;
   }
 
 
@@ -54,6 +53,15 @@ public class Parcel {
 
   public void setWeight(String weight) {
     this.weight = weight;
+  }
+
+
+  public String getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(String quantity) {
+    this.quantity = quantity;
   }
 
 }
