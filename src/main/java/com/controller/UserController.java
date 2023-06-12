@@ -38,7 +38,7 @@ public class UserController {
 
     @PostMapping("tracking")
     @UserLoginToken
-    public R  tracking(@RequestBody String itemid,@RequestAttribute("id") String id){
+    public R  tracking(@RequestBody Param itemid,@RequestAttribute("id") String id){
         return userService.tracking(itemid);
    }
 
@@ -50,7 +50,7 @@ public class UserController {
     }
     @PostMapping("billing")
     @UserLoginToken
- public R billing (@RequestBody String accountnumber,@RequestAttribute("id") String id)
+ public R billing (@RequestBody Param2 accountnumber,@RequestAttribute("id") String id)
     {
         return  userService.Billing(accountnumber);
     }

@@ -12,7 +12,7 @@ public class Billing {
     return accountnumber;
   }
 
-  public void setAccountNumber(String accountNumber) {
+  public void setAccountNumber(String accountnumber) {
     this.accountnumber = accountnumber;
   }
 

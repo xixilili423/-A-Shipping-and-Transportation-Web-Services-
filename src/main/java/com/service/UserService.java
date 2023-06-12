@@ -25,7 +25,7 @@ import com.vo.param.*;
      * @get getInformation(旧密码，新密码，token)
      * @return
      */
-    R Billing(String accountnumber);
+    R Billing(Param2 accountnumber);
 
 
         /**
@@ -33,7 +33,7 @@ import com.vo.param.*;
      * @get getInformation(token)
      * @return
      */
-    R tracking(String itemid);
+    R tracking(Param itemid);
     /**
      * 5.修改个人信息
      * @get getInformation(手机号，所属中转，token)

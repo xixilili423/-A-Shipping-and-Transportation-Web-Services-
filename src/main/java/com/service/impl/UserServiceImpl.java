@@ -62,7 +62,6 @@ public  class UserServiceImpl implements UserService {
         boolean u = userMapper.exists(queryWrapper);
         System.out.println(u);
         if (!u) {
-            Date now = new Date();
             Shipperaccount shipperAccount = new Shipperaccount();
             shipperAccount.setPassword(registerParam.getPassword());
             shipperAccount.setContactName(registerParam.getContactname());
@@ -82,11 +81,11 @@ public  class UserServiceImpl implements UserService {
     }
 
     @Override
-    public R Billing(String accountnumber) {
+    public R Billing(Param2 accountnumber) {
         R r = new R();
         r.data("status_code", false);
         QueryWrapper<Billing> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("accountnumber", accountnumber);
+        queryWrapper.eq("accountnumber", accountnumber.getAccountnumber());
         try {
             Billing billing = billingMapper.selectOne(queryWrapper);
             r.data("billing", billing);
@@ -101,14 +100,13 @@ public  class UserServiceImpl implements UserService {
 
 
     @Override
-    public R tracking(String itemid) {
+    public R tracking(Param itemid) {
         R r = new R();
         r.data("status_code", false);
         QueryWrapper<Shipment> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("parcels", itemid);
+        queryWrapper.eq("parcels", itemid.getItemid());
         Shipment shipment = shipmentMapper.selectOne(queryWrapper);
         if (shipment != null) {
-
             if (shipment.getReturnTo() != null) {
                 r.data("address", shipment.getReturnTo());
                 r.data("status_code", true);
