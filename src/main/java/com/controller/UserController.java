@@ -25,24 +25,28 @@ public class UserController {
     // 登陆--post保存
 
     @PostMapping("login")
+    @UserLoginToken
     public R login(@RequestBody LoginParam loginParam) {
         return userService.login(loginParam);
     }
 
     // 注册--post保存
     @PostMapping("register")
-    public R register(@RequestBody ShipperAccount shipperAccount) {
-        return userService.register(shipperAccount);
-    }
     @UserLoginToken
+    public R register(@RequestBody RegisterParam registerParam) {
+        return userService.register(registerParam);
+    }
+
     @PostMapping("tracking")
-    public R  tracking(@RequestBody String itemid,@RequestAttribute(name = "id")String id){
+    @UserLoginToken
+    public R  tracking(@RequestBody String itemid,@RequestAttribute("id") String id){
         return userService.tracking(itemid);
    }
-    @UserLoginToken
+
     @PostMapping("createOrder")
-    public R createOrder(@RequestBody com.pojo.Shipment shipment,@RequestAttribute(name = "id")String id)
+    @UserLoginToken
+    public R createOrder(@RequestBody CreateOrderParam createOrderParam,@RequestAttribute("id")String id)
     {
-       return  userService.createOrder(shipment,id);
+       return  userService.createOrder(createOrderParam,id);
     }
 }

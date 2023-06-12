@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.entity.*;
 import com.mapper.*;
 import com.pojo.*;
+import com.pojo.Address;
 import com.pojo.Billing;
 import com.pojo.Shipment;
 import com.vo.R;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.service.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +35,6 @@ public  class UserServiceImpl implements UserService {
     private final ShipmentMapper shipmentMapper;
     @Autowired
     private  final BillingMapper billingMapper;
-
     // 登录
     @Override
     public R login(LoginParam loginParam){
@@ -55,7 +57,7 @@ public  class UserServiceImpl implements UserService {
     }
     // 注册
     @Override
-    public R register(ShipperAccount registerParam) {
+    public R register(RegisterParam registerParam) {
         R r= new R();
         r.data("status_code",false);
         QueryWrapper<Shipperaccount> queryWrapper=new QueryWrapper<>();
@@ -67,25 +69,19 @@ public  class UserServiceImpl implements UserService {
             Date now = new Date();
             Shipperaccount shipperAccount=new Shipperaccount();
             shipperAccount.setPassword(registerParam.getPassword());
-            int i1 = addressMapper.insert(registerParam.getAddress());
-            shipperAccount.setPassword(registerParam.getPassword());
-           shipperAccount.setType(registerParam.getType());
-           shipperAccount.setDescription(registerParam.getDescription());
-           shipperAccount.setContactName(registerParam.getAddress().getContactName());
-           shipperAccount.setSettings(registerParam.getSettings());
-           shipperAccount.setSlug(registerParam.getSlug());
+           shipperAccount.setContactName(registerParam.getContactname());
            shipperAccount.setId(registerParam.getId());
-           shipperAccount.setTimezone(registerParam.getTimezone());
-           shipperAccount.setCreatedAt(now.toString());
-           shipperAccount.setUpdatedAt(now.toString());
+           shipperAccount.setCreatedAt(LocalDate.now().toString());
+           shipperAccount.setAddress(registerParam.getAddress());
            int i2=userMapper.insert(shipperAccount);
-           if(i2==1&&i1==1) {
+           if(i2==1) {
                r.data("status_code", true);
                return r;
            }
            return  r;
         }
         else {
+            r.setMessage("用户已存在");
             return r;
         }
     }
@@ -102,14 +98,13 @@ public  class UserServiceImpl implements UserService {
         R r= new R();
         r.data("status_code",false);
         QueryWrapper<Shipment> queryWrapper = new QueryWrapper<>();
-        QueryWrapper<com.pojo.Address> queryWrapper1 = new QueryWrapper<>();
         queryWrapper.eq("parcels",itemid);
         Shipment shipment= shipmentMapper.selectOne(queryWrapper);
         if(shipment!=null) {
-            queryWrapper1.eq("id", shipment.getReturnTo());
-            com.pojo.Address address = addressMapper.selectOne(queryWrapper1);
-            if (address != null) {
-                r.data("address", address);
+
+            if (shipment.getReturnTo() != null) {
+                r.data("address", shipment.getReturnTo());
+                r.data("status_code",true);
                 return r;
             }
         }
@@ -134,29 +129,22 @@ public  class UserServiceImpl implements UserService {
 
     }
     @Override
-    public R createOrder( com.pojo.Shipment shipment, String id) {
+    public R createOrder( CreateOrderParam createOrderParam, String id) {
         R r = new R();
         r.data("status_code",false);
         Billing billing=new Billing();
-        QueryWrapper<com.pojo.Address> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",shipment.getShipFrom());
-       Shipment shipment1=new com.pojo.Shipment();
-       shipment1.setParcels(shipment.getParcels());
-       shipment1.setReturnTo(shipment.getReturnTo());
-       shipment1.setShipFrom(shipment.getShipFrom());
-       shipment1.setShipTo(shipment.getShipTo());
-       shipment1.setServicetype(shipment.getServicetype());
-       com.pojo.Address addressfrom=addressMapper.selectOne(queryWrapper);
-       if(addressfrom!=null) {
-              billing.setCountry(addressfrom.getCountry());
-          }
-              billing.setAccountNumber(id);
-              billing.setPaidBy(id);
-
-       shipment1.setDeliveryInstructions(shipment.getDeliveryInstructions());
+       Shipment shipment1=new Shipment();
+       shipment1.setParcels(createOrderParam.getParcels());
+       shipment1.setReturnTo(createOrderParam.getReturnTo());
+       shipment1.setShipFrom(createOrderParam.getShipFrom());
+       shipment1.setShipTo(createOrderParam.getShipTo());
+       shipment1.setServicetype(createOrderParam.getType());
+       billing.setAccountNumber(id);
+       billing.setType(createOrderParam.getType());
+       billing.setPaidBy("");
        int i=shipmentMapper.insert(shipment1);
-       billingMapper.insert(billing);
-        if( i==1) {
+       int j=billingMapper.insert(billing);
+        if( i==1&&j==1) {
             r.data("status_code", true);
             return r;
         }

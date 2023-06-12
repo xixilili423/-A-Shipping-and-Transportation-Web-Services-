@@ -17,6 +17,8 @@ public class Billing {
   }
 
 
+
+
   public String getType() {
     return type;
   }

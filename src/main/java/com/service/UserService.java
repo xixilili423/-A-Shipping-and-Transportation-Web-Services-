@@ -23,7 +23,7 @@ import com.vo.param.*;
      * @param registerParam(用户名,密码）
      * @return
      */
-    R register(ShipperAccount registerParam);
+    R register(RegisterParam registerParam);
     /**
      * 3.改密码
      * @get getInformation(旧密码，新密码，token)
@@ -42,7 +42,7 @@ import com.vo.param.*;
      * @get getInformation(手机号，所属中转，token)
      * @return
      */
-    R createOrder(com.pojo.Shipment shipment, String id);
+    R createOrder(CreateOrderParam createOrderParam, String id);
    Shipperaccount findUserById(String username);
 
 

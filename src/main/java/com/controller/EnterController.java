@@ -1,9 +1,5 @@
 package com.controller;
 
-import com.vo.R;
-import com.vo.param.CheckParcelParam;
-import com.vo.param.EnterParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**

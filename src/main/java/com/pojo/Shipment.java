@@ -1,5 +1,8 @@
 package com.pojo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 
 public class Shipment {
 
