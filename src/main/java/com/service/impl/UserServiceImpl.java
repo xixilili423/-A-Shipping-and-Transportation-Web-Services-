@@ -137,30 +137,40 @@ public  class UserServiceImpl implements UserService {
     @Override
     public R createOrder(CreateOrderParam createOrderParam, String id) {
         R r = new R();
-        int i=0, j=0, k=0;
-        r.data("status_code", false);
-        Billing billing = new Billing();
-        Shipment shipment = new Shipment();
-        Parcel parcels = new Parcel();
-        Parcels p=createOrderParam.getParcels();
-            shipment.setParcels(p.getParcelsid());
-            parcels.setParcelsid(p.getParcelsid());
-            parcels.setDescription(p.getDescription());
-            parcels.setWeight(p.getWeight());
-            parcels.setQuantity(p.getQuantity());
-            parcels.setBoxtype(parcels.getBoxtype());
-            shipment.setReturnTo(createOrderParam.getReturnto());
-            shipment.setShipfrom(createOrderParam.getShipfrom());
-            shipment.setShipto(createOrderParam.getShipto());
-            shipment.setServicetype(createOrderParam.getType());
-            billing.setAccountNumber(id);
-            billing.setType(createOrderParam.getType());
-            billing.setPaidBy(id);
-            i = shipmentMapper.insert(shipment);
-            j = billingMapper.insert(billing);
-            k = parcelMapper.insert(parcels);
+        int i = 0, j = 0, k = 0;
+        QueryWrapper<Parcel> queryWrapper = new QueryWrapper<Parcel>();
+        queryWrapper.eq("parcelsid", createOrderParam.getParcels().getParcelsid());
+        boolean A = parcelMapper.exists(queryWrapper);
+        if (A) {
+            r.data("status_code", false);
+            r.setMessage("包裹已存在");
+            return r;//创建订单}
+        }
+        else{
 
-        if (i == 1 && j == 1 && k == 1) r.data("status_code", true);
-        return r;//创建订单
+                Billing billing = new Billing();
+                Shipment shipment = new Shipment();
+                Parcel parcels = new Parcel();
+                Parcels p = createOrderParam.getParcels();
+                shipment.setParcels(p.getParcelsid());
+                parcels.setParcelsid(p.getParcelsid());
+                parcels.setDescription(p.getDescription());
+                parcels.setWeight(p.getWeight());
+                parcels.setQuantity(p.getQuantity());
+                parcels.setBoxtype(parcels.getBoxtype());
+                shipment.setReturnTo(createOrderParam.getReturnto());
+                shipment.setShipfrom(createOrderParam.getShipfrom());
+                shipment.setShipto(createOrderParam.getShipto());
+                shipment.setServicetype(createOrderParam.getType());
+                billing.setAccountNumber(id);
+                billing.setType(createOrderParam.getType());
+                billing.setPaidBy(id);
+                i = shipmentMapper.insert(shipment);
+                j = billingMapper.insert(billing);
+                k = parcelMapper.insert(parcels);
+
+                if (i == 1 && j == 1 && k == 1) r.data("status_code", true);
+                return r;//创建订单
+            }
+        }
     }
-}

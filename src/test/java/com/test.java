@@ -1,104 +1,107 @@
 package com;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mapper.BillingMapper;
+import com.mapper.ParcelMapper;
+import com.mapper.ShipmentMapper;
+import com.pojo.Billing;
+import com.pojo.Parcel;
+import com.pojo.Shipment;
+import com.service.UserService;
+import com.vo.R;
+import com.vo.param.CreateOrderParam;
+import com.vo.param.Parcels;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-
-@SpringBootTest
-public class test {
-    @Mock
-    private InboundMapper inboundMapper;
+@RunWith(MockitoJUnitRunner.class)
+class OrderServiceTest {
 
     @Mock
-    private WarehousepersonMapper warehousepersonMapper;
+    private ParcelMapper parcelMapper;
+
     @Mock
-    private ShelfMapper shelfMapper;
+    private ShipmentMapper shipmentMapper;
+
+    @Mock
+    private BillingMapper billingMapper;
+
     @InjectMocks
-    private OutAndInServiceImpl examineInService;
+    private UserService orderService;
 
     @Test
-    public void testExamineInInboundNotExist() {
-        // 模拟入库单不存在的情况
-        when(inboundMapper.selectById(anyLong())).thenReturn(null);
-        ExamineInParam param = new ExamineInParam();
-        param.setInID("5");
-        // 调用被测试的方法
-        R result;
-        result = examineInService.ExamineIn("123", param);
+    public void testCreateOrderWithExistingParcel() {
+        // 准备数据
+        CreateOrderParam createOrderParam = new CreateOrderParam();
+        Parcels parcels = new Parcels();
+        parcels.setParcelsid("123");
+        createOrderParam.setParcels(parcels);
 
-        // 验证返回结果是否符合预期
-        assertEquals("入库单不存在", result.getMessage());
+        QueryWrapper<Parcel> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parcelsid", "123");
+        when(parcelMapper.exists(queryWrapper)).thenReturn(true);
+
+        // 执行方法
+        R result = orderService.createOrder(createOrderParam, "123");
+
+        // 验证结果
+        assertFalse((Boolean) result.getData().get("status_code"));
+        assertEquals("包裹已存在", result.getMessage());
     }
 
     @Test
-    public void testExamineInWarehousepersonNotExist() {
-        // 模拟入库单存在但入库交接人不存在的情况
-        Inbound inbound = new Inbound();
-        inbound.setInboundid(1L);
-        when(inboundMapper.selectById(anyLong())).thenReturn(inbound);
-        when(warehousepersonMapper.selectOne(any())).thenReturn(null);
-        // 调用被测试的方法
-        ExamineInParam param = new ExamineInParam();
-        param.setInID("1");
-        param.setInPeopleName("张三");
-        R result = examineInService.ExamineIn("123", param);
+    public void testCreateOrder() {
+        // 准备数据
+        CreateOrderParam createOrderParam = new CreateOrderParam();
+        Parcels parcels = new Parcels();
+        Parcel parcel=new Parcel();
+        parcels.setParcelsid("123");
+        parcels.setDescription("test");
+        parcels.setWeight("1.0");
+        parcels.setQuantity("1");
+        parcels.setBoxtype("box");
+        parcel.setParcelsid("123");
+        parcel.setDescription("test");
+        parcel.setWeight("1.0");
+        parcel.setQuantity("1");
+        parcel.setBoxtype("box");
+        createOrderParam.setParcels(parcels);
+        createOrderParam.setReturnto("returnto");
+        createOrderParam.setShipfrom("shipfrom");
+        createOrderParam.setShipto("shipto");
+        createOrderParam.setType("type");
 
-        // 验证返回结果是否符合预期
-        assertEquals("入库交接人不存在", result.getMessage());
+        Billing billing = new Billing();
+        billing.setAccountNumber("123");
+        billing.setType("type");
+        billing.setPaidBy("123");
+
+        Shipment shipment = new Shipment();
+        shipment.setParcels("123");
+        shipment.setReturnTo("returnto");
+        shipment.setShipfrom("shipfrom");
+        shipment.setShipto("shipto");
+        shipment.setServicetype("type");
+
+        when(shipmentMapper.insert(shipment)).thenReturn(1);
+        when(billingMapper.insert(billing)).thenReturn(1);
+        when(parcelMapper.insert(parcel)).thenReturn(1);
+
+        // 执行方法
+        R result = orderService.createOrder(createOrderParam, "123");
+
+        // 验证结果
+        assertTrue((Boolean) result.getData().get("status_code"));
     }
-
-    @Test
-    public void testExamineInSuccess() {
-        // 模拟入库单存在且入库交接人存在的情况
-        Inbound inbound = new Inbound();
-        inbound.setInboundid(1L);
-        when(inboundMapper.selectById(anyLong())).thenReturn(inbound);
-        when(warehousepersonMapper.selectOne(any())).thenReturn(new Warehouseperson());
-        when(examineInService.selectAvailableShelves()).thenReturn(new ArrayList<Shelf>());
-
-        // 调用被测试的方法
-        ExamineInParam param = new ExamineInParam();
-        param.setInID("1");
-        param.setInPeopleName("张三");
-        param.setInStatus("已入库");
-        ParcelList[] parcelLists=new ParcelList[1];
-        ParcelList p=new ParcelList();
-        p.setParcelID(9);
-        parcelLists[0]=p;
-        param.setParcelList(parcelLists);
-        R result = examineInService.ExamineIn("123", param);
-
-        // 验证返回结果是否符合预期
-        assertEquals("No available shelf", result.getMessage());
-    }
-
-    @Test
-    public void testExamineInNoAvailableShelf() {
-        // 模拟入库单存在但没有可用的货架的情况
-        Inbound inbound = new Inbound();
-        inbound.setInboundid(1L);
-        when(inboundMapper.selectById(anyLong())).thenReturn(inbound);
-        when(warehousepersonMapper.selectOne(any())).thenReturn(new Warehouseperson());
-        when(examineInService.selectAvailableShelves()).thenReturn(new ArrayList<Shelf>());
-
-        // 调用被测试的方法
-        ExamineInParam param = new ExamineInParam();
-        param.setInID("1");
-        param.setInPeopleName("张三");
-        param.setInStatus("已入库");
-        param.setParcelList(new ParcelList[]{new ParcelList()});
-        R result = examineInService.ExamineIn("123", param);
-        // 验证返回结果是否符合预期
-        assertEquals("No available shelf", result.getMessage());
-    }
-
 }
