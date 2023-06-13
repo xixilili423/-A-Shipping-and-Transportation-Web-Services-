@@ -5,14 +5,12 @@ import lombok.Setter;
 
 
 public class Shipment {
-
-
   private String returnto;
   private String shipfrom;
   private String shipto;
   private String servicetype;
   private String parcels;
-
+  private String updateat;
   public String getReturnTo() {
     return returnto;
   }
@@ -57,4 +55,11 @@ public class Shipment {
     this.parcels = parcels;
   }
 
+  public String getUpdateat() {
+    return updateat;
+  }
+
+  public void setUpdateat(String updateat) {
+    this.updateat = updateat;
+  }
 }

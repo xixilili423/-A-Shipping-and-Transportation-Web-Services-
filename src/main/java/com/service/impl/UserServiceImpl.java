@@ -39,8 +39,9 @@ public  class UserServiceImpl implements UserService {
         QueryWrapper<Shipperaccount> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", loginParam.getUsername()).eq("password", loginParam.getPassword());
         R r = new R();
-        List<Shipperaccount> shipper = userMapper.selectList(queryWrapper);//
-        if (shipper != null) {
+        System.out.println("execute");
+        boolean shipper = userMapper.exists(queryWrapper);//
+        if (shipper ) {
             String token = getToken(loginParam);
             r.data("token", token);
             r.data("status_code", true);
@@ -57,6 +58,7 @@ public  class UserServiceImpl implements UserService {
     public R register(RegisterParam registerParam) {
         R r = new R();
         r.data("status_code", false);
+        System.out.println("execute");
         QueryWrapper<Shipperaccount> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", registerParam.getId());
         boolean u = userMapper.exists(queryWrapper);
@@ -66,7 +68,7 @@ public  class UserServiceImpl implements UserService {
             shipperAccount.setPassword(registerParam.getPassword());
             shipperAccount.setContactName(registerParam.getContactname());
             shipperAccount.setId(registerParam.getId());
-            shipperAccount.setCreatedAt(LocalDate.now().toString());
+            shipperAccount.setCreatedAt(new Date().toString());
             shipperAccount.setAddress(registerParam.getAddress());
             int i2 = userMapper.insert(shipperAccount);
             if (i2 == 1) {
@@ -109,6 +111,7 @@ public  class UserServiceImpl implements UserService {
         if (shipment != null) {
             if (shipment.getReturnTo() != null) {
                 r.data("address", shipment.getReturnTo());
+                r.data("time",shipment.getUpdateat());
                 r.data("status_code", true);
                 return r;
             }
@@ -162,6 +165,7 @@ public  class UserServiceImpl implements UserService {
                 shipment.setShipfrom(createOrderParam.getShipfrom());
                 shipment.setShipto(createOrderParam.getShipto());
                 shipment.setServicetype(createOrderParam.getType());
+                shipment.setUpdateat(LocalDate.now().toString());
                 billing.setAccountNumber(id);
                 billing.setType(createOrderParam.getType());
                 billing.setPaidBy(id);
