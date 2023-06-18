@@ -94,7 +94,7 @@
   <div class="shipment-details">
     <h2>Shipment Details</h2>
     <p>Address: ${shipment.address}</p>
-    <p>Status Code: ${shipment.updateat}</p>
+    <p>UpdateAt: ${shipment.updateat}</p>
   </div>
 </c:if>
 </div>

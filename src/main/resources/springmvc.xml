@@ -12,7 +12,7 @@
 
     <!-- 开启 扫描 -->
     <!-- 开启注解扫描,只扫描mvc注解 -->
-    <context:component-scan base-package="com.shipping.repository, com.shipping.entity, com.shipping.Controller">
+    <context:component-scan base-package="com.service, com.entity, com.Controller">
         <!-- 只扫描指定包下的Controller注解 -->
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
@@ -21,9 +21,6 @@
     <!--处理器映射器，处理器适配器-->
     <!--注册最合适的处理器适配器-->
     <mvc:annotation-driven
-            conversion-service="mvcConversionService"
-            validator="mvcValidator"
-            content-negotiation-manager="mvcContentNegotiationManager"
             ignore-default-model-on-redirect="true"
             enable-matrix-variables="true"
     />
@@ -45,11 +42,10 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-
     <!-- 配置JPA实体管理器工厂 -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.shipping.entity" />
+        <property name="packagesToScan" value="com.entity" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="database" value="MYSQL" />

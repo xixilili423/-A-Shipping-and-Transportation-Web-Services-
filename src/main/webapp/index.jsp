@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -69,19 +70,18 @@
         <input type="password" id="password" name="password" required><br>
         <input type="submit" value="Login">
     </form>
-
     <br>
-
     <form action=registry.jsp>
-        <input type="submit" value="Register">
+        <input type="submit" value="Registry">
     </form>
-    <%-- Check for error parameter in URL query string --%>
-    <% String error = request.getParameter("status_code"); %>
-    <% if (error != null && error.equals("1")) { %>
-    <p class="error-message">Invalid username or password. Please try again.</p>
-    <% } else if (error != null && error.equals("2")) { %>
-    <p class="error-message">Registration failed. Please try again.</p>
-    <% } %>
+    <c:if test="${not empty errorMessage}">
+        <div class="错误信息">
+            <h2>Error Details</h2>
+            <p>${errorMessage}</p>
+
+        </div>
+    </c:if>
+
 </div>
 </body>
 </html>
