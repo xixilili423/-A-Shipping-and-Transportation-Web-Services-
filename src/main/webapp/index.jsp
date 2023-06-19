@@ -74,14 +74,6 @@
     <form action=registry.jsp>
         <input type="submit" value="Registry">
     </form>
-    <c:if test="${not empty errorMessage}">
-        <div class="错误信息">
-            <h2>Error Details</h2>
-            <p>${errorMessage}</p>
-
-        </div>
-    </c:if>
-
-</div>
+    <c:if test="${not empty errorMessage}" > <p> Username or password error. Please try again.</p></c:if>
 </body>
 </html>

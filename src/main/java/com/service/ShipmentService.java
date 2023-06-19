@@ -1,21 +1,21 @@
 package com.service;
 
 import com.dao.UserDao;
-import com.entity.User;
+import com.entity.Shipment;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+
 @Service
-public class Userservice {
+public class ShipmentService {
     private InputStream in;
     SqlSessionFactory factory;
     private SqlSession sqlSession;
@@ -37,7 +37,7 @@ public class Userservice {
         sqlSession.close();
         in.close();
     }
-    public Userservice(){
+    public ShipmentService(){
         //        读取配置文件
         try {
             this.in= Resources.getResourceAsStream("MybatisConfig.xml");
@@ -52,14 +52,16 @@ public class Userservice {
         this.dao=sqlSession.getMapper(UserDao.class);
 
     }
-    @Test
-    public User findByUsernameAndPassword(String username, String password)
-    {
-        User user=dao.findByUsernameAndPassword(username,password);
-        return  user;
+    public Shipment getShipmentDetails(String itemid) {
+        // 根据 item ID 查询航运详情的逻辑
+        // ...
+        // 示例：创建一个 Shipment 对象并返回
+        Shipment shipment ;
+        shipment=dao.trackShipment(itemid);
+        return shipment;
     }
+    public void createShipmentOrder(Shipment shipment){
 
-    public void  registerUser(String username,  String password, String email) {
-        dao.registerUser(username,password,email);
+        dao.insertShipment(shipment);
     }
 }

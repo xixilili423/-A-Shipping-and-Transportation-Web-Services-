@@ -69,6 +69,8 @@
   <button type="submit" onclick="submitForm()" >Track</button>
 </form>
   <script>
+
+
     function submitForm() {
       var form = document.getElementById("myForm");
       // 获取当前URL
@@ -81,7 +83,6 @@
 
       // 设置表单的action属性为新的URL路径
       form.action = newUrl;
-
       // 提交表单
       form.submit();
       // 获取表单元素
@@ -93,10 +94,11 @@
 <c:if test="${not empty shipment}">
   <div class="shipment-details">
     <h2>Shipment Details</h2>
-    <p>Address: ${shipment.address}</p>
+    <p>Address: ${shipment.returnto}</p>
     <p>UpdateAt: ${shipment.updateat}</p>
   </div>
 </c:if>
+  <a href="main">Back to Main Menu</a>
 </div>
 </body>
 </html>

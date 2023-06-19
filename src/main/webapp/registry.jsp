@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ojhgg
@@ -63,19 +64,14 @@
     <input type="text" id="username" name="username" required><br>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required><br>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required><br>
     <input type="submit" value="Registry">
 </form>
 <br>
 <form action="index.jsp">
     <input type="submit" value="Login">
 </form>
-
-<%-- Check for error parameter in URL query string --%>
-<% String error = request.getParameter("status_code"); %>
-<% if (error != null && error.equals("1")) { %>
-<p class="error-message">Invalid username or password. Please try again.</p>
-<% } else if (error != null && error.equals("2")) { %>
-<p class="error-message">Registration failed. Please try again.</p>
-<% } %>
+<c:if test="${not empty errorMessage}" ><p>Username or password already in use, Please try again.</p></c:if>
 </body>
 </html>
