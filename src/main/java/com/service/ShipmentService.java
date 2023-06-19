@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,8 +61,8 @@ public class ShipmentService {
         shipment=dao.trackShipment(itemid);
         return shipment;
     }
-    public void createShipmentOrder(Shipment shipment){
+    public void createShipmentOrder(String  returnto, String  shipfrom,String  shipto,String  servicetype,String  parcels,String updateat ){
 
-        dao.insertShipment(shipment);
+        dao.insertShipment( returnto, shipfrom,shipto,servicetype,parcels,updateat );
     }
 }

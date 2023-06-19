@@ -21,6 +21,6 @@ public interface UserDao {
 
     @Insert("INSERT INTO shipment (returnto, shipfrom, shipto, servicetype, parcels, updateat) " +
             "VALUES (#{returnto}, #{shipfrom}, #{shipto}, #{servicetype}, #{parcels}, #{updateat})")
-    public int  insertShipment(@Param("shipment") Shipment shipment);
+    public int  insertShipment(@Param("returnto")String  returnto, @Param("shipfrom")String  shipfrom,@Param("shipto")String  shipto,@Param("servicetype")String  servicetype,@Param("parcels")String  parcels,@Param("updateat")String updateat );
 
 }

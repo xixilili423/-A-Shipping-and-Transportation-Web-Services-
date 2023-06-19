@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="en">
 <head>
   <title>Shipment Tracking</title>
   <style>
@@ -69,18 +69,14 @@
   <button type="submit" onclick="submitForm()" >Track</button>
 </form>
   <script>
-
-
     function submitForm() {
       var form = document.getElementById("myForm");
       // 获取当前URL
       var currentUrl = form.action;
       // 构建新的URL路径
       var newUrl = currentUrl.replace("/shipping/track", "/app/shipping/track");
-
       // 获取表单元素
       var form = document.getElementById("myForm");
-
       // 设置表单的action属性为新的URL路径
       form.action = newUrl;
       // 提交表单
@@ -94,8 +90,8 @@
 <c:if test="${not empty shipment}">
   <div class="shipment-details">
     <h2>Shipment Details</h2>
-    <p>Address: ${shipment.returnto}</p>
-    <p>UpdateAt: ${shipment.updateat}</p>
+    <p>Address: <c:out value="${shipment.returnto}"/></p>
+    <p>UpdateAt: <c:out value="${shipment.updateat}"/></p>
   </div>
 </c:if>
   <a href="main">Back to Main Menu</a>
