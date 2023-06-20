@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Login</title>
@@ -74,6 +75,9 @@
     <form action=registry.jsp>
         <input type="submit" value="Registry">
     </form>
-    <c:if test="${not empty errorMessage}" > <p> Username or password error. Please try again.</p></c:if>
+    <%--@elvariable id="errorMessage" type="java.lang.String" --%>
+    <c:if test="${not empty errorMessage }" >
+    <p> Username or password error. Please try again.</p>
+    </c:if>
 </body>
 </html>

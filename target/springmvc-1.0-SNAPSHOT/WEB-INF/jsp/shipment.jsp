@@ -69,6 +69,8 @@
   <button type="submit" onclick="submitForm()" >Track</button>
 </form>
   <script>
+    data:{
+    }
     function submitForm() {
       var form = document.getElementById("myForm");
       // 获取当前URL
@@ -87,6 +89,8 @@
       form.submit();
     }
   </script>
+  <%--@elvariable id="shipment" type="com.entity.Shipment" --%>
+  <c:set var="shipment" value="null" />
 <c:if test="${not empty shipment}">
   <div class="shipment-details">
     <h2>Shipment Details</h2>

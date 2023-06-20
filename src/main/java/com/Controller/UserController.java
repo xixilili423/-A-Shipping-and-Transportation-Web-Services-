@@ -23,8 +23,8 @@ public class UserController {
             model.setViewName("main");
             return model;
        } else {
-           model.addObject("errorMessage", "登录失败"); // 设置错误消息
-           model.setViewName("redirect:../index.jsp");
+           model.addObject("errorMessage", "failed"); // 设置错误消息
+           model.setViewName("redirect:../index.jsp?errorMessage=faile");
            return model;
       }
     }
@@ -41,9 +41,8 @@ public class UserController {
             model.setViewName("main");
             return model;
         } else {
-
-            model.addObject("errorMessage", "注册失败"); // 设置错误消息
-            model.setViewName("redirect:../registry.jsp");
+            model.addObject("errorMessage", "failed"); // 设置错误消息
+            model.setViewName("redirect:../registry.jsp?errorMessage=faile");
             return model;
         }
     }

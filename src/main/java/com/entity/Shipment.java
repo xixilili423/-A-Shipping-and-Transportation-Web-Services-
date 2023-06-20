@@ -13,28 +13,18 @@ import javax.persistence.Table;
 @Getter
 @Setter
 public class Shipment {
-
-
     @Column
     public String returnto;
-
     @Column
     public String shipfrom;
-
     @Column
     public String shipto;
-
     @Column
     public String servicetype;
-
     @Id
     public String parcels;
-
     @Column
     public String updateat;
-
-
-
     // Getters and Setters
 }
 
