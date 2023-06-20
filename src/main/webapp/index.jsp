@@ -75,9 +75,10 @@
     <form action=registry.jsp>
         <input type="submit" value="Registry">
     </form>
-    <%--@elvariable id="errorMessage" type="java.lang.String" --%>
-    <c:if test="${not empty errorMessage }" >
+    <c:set var="errorMessage" value="failed" scope="session" ></c:set>
+    <c:if test="${errorMessage  eq 'failed'} " >
     <p> Username or password error. Please try again.</p>
     </c:if>
+</div>
 </body>
 </html>

@@ -72,6 +72,10 @@
 <form action="index.jsp">
     <input type="submit" value="Login">
 </form>
+data:{
+errorMessage= "success"
+}
+
 <%--@elvariable id="errorMessage" type="java.lang.String" --%>
 <c:if test="${not empty errorMessage}" >
     <p>Username or password already in use, Please try again.
