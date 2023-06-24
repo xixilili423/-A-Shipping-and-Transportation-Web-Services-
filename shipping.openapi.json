@@ -1,0 +1,1321 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "shipping",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "user"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "summary": "register",
+        "x-apifox-folder": "user",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "contactname": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "address",
+                  "createdAt",
+                  "password",
+                  "contactname"
+                ],
+                "x-apifox-orders": [
+                  "id",
+                  "address",
+                  "createdAt",
+                  "password",
+                  "contactname"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "boolean"
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "status_code"
+                  ],
+                  "required": [
+                    "status_code"
+                  ],
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2747517/apis/api-83312398-run"
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "login",
+        "x-apifox-folder": "user",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "user"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "x-apifox-orders": [
+                  "username",
+                  "password"
+                ],
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "null"
+                    },
+                    "message": {
+                      "type": "null"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "boolean"
+                        },
+                        "token": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status_code",
+                        "token"
+                      ],
+                      "x-apifox-ignore-properties": [],
+                      "x-apifox-orders": [
+                        "status_code",
+                        "token"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": [
+                    "success",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2747517/apis/api-83312688-run"
+      }
+    },
+    "/user/tracking": {
+      "post": {
+        "summary": "tracking",
+        "x-apifox-folder": "user",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "user"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "itemid": {
+                    "type": "string"
+                  }
+                },
+                "x-apifox-orders": [
+                  "itemid"
+                ],
+                "required": [
+                  "itemid"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    },
+                    "status_code": {
+                      "type": "string"
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "address",
+                    "status_code"
+                  ],
+                  "required": [
+                    "address",
+                    "status_code"
+                  ],
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2747517/apis/api-83312740-run"
+      }
+    },
+    "/user/createOrder": {
+      "post": {
+        "summary": "createOrder",
+        "x-apifox-folder": "user",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "user"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deliveryinstructions": {
+                    "type": "string"
+                  },
+                  "returnto": {
+                    "type": "string"
+                  },
+                  "shipfrom": {
+                    "type": "string"
+                  },
+                  "shipto": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "parcels": {
+                    "type": "object",
+                    "properties": {
+                      "boxtype": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "weight": {
+                        "type": "string"
+                      },
+                      "parcelsid": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "string"
+                      }
+                    },
+                    "x-apifox-refs": {},
+                    "x-apifox-orders": [
+                      "boxtype",
+                      "description",
+                      "weight",
+                      "parcelsid",
+                      "quantity"
+                    ],
+                    "required": [
+                      "boxtype",
+                      "description",
+                      "weight",
+                      "parcelsid",
+                      "quantity"
+                    ],
+                    "x-apifox-ignore-properties": []
+                  }
+                },
+                "required": [
+                  "deliveryinstructions",
+                  "returnto",
+                  "shipfrom",
+                  "shipto",
+                  "type",
+                  "parcels"
+                ],
+                "x-apifox-orders": [
+                  "deliveryinstructions",
+                  "returnto",
+                  "shipfrom",
+                  "shipto",
+                  "type",
+                  "parcels"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "null"
+                    },
+                    "message": {
+                      "type": "null"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status_code": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "status_code"
+                      ],
+                      "x-apifox-ignore-properties": [],
+                      "x-apifox-orders": [
+                        "status_code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": [
+                    "success",
+                    "message",
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "success": null,
+                      "message": null,
+                      "data": {
+                        "status_code": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2747517/apis/api-85488598-run"
+      }
+    },
+    "/user/billing": {
+      "post": {
+        "summary": "billing",
+        "x-apifox-folder": "user",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "user"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "accountnumber": {
+                    "type": "string"
+                  }
+                },
+                "x-apifox-orders": [
+                  "accountnumber"
+                ],
+                "required": [
+                  "accountnumber"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-orders": [
+                    "01H2QEZZ1M9K8J5Q0QC38HVB7B"
+                  ],
+                  "required": [
+                    "01H2QEZZ1M9K8J5Q0QC38HVB7B"
+                  ],
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/2747517/apis/api-88324069-run"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Parcel": {
+        "type": "object",
+        "properties": {
+          "boxtype": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "string"
+          },
+          "parcelsid": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "boxtype",
+          "description",
+          "weight",
+          "parcelsid",
+          "quantity"
+        ],
+        "x-apifox-orders": [
+          "boxtype",
+          "description",
+          "weight",
+          "parcelsid",
+          "quantity"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "entity"
+      },
+      "Courier": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "operations": {
+            "type": "object",
+            "properties": {
+              "post@labels": {
+                "type": "boolean"
+              },
+              "post@cancel-labels": {
+                "type": "boolean"
+              },
+              "post@rates": {
+                "type": "boolean"
+              },
+              "post@manifests": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "post@labels",
+              "post@cancel-labels",
+              "post@rates",
+              "post@manifests"
+            ],
+            "x-apifox-orders": [
+              "post@labels",
+              "post@cancel-labels",
+              "post@rates",
+              "post@manifests"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "ship_from": {
+            "type": "string"
+          },
+          "ship_to": {
+            "type": "string"
+          },
+          "paper_sizes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "courier_service_types": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "service_type": {
+                  "type": "string"
+                },
+                "service_name": {
+                  "type": "string"
+                },
+                "is_domestic": {
+                  "type": "string"
+                },
+                "ship_from.country": {
+                  "type": "string"
+                }
+              },
+              "x-apifox-orders": [
+                "service_type",
+                "service_name",
+                "is_domestic",
+                "ship_from.country"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "courier_box_types": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "box_name": {
+                  "type": "string"
+                },
+                "box_type": {
+                  "type": "string"
+                }
+              },
+              "x-apifox-orders": [
+                "box_name",
+                "box_type"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          }
+        },
+        "required": [
+          "slug",
+          "name",
+          "operations",
+          "ship_from",
+          "ship_to",
+          "paper_sizes",
+          "courier_service_types",
+          "courier_box_types"
+        ],
+        "x-apifox-orders": [
+          "slug",
+          "name",
+          "operations",
+          "ship_from",
+          "ship_to",
+          "paper_sizes",
+          "courier_service_types",
+          "courier_box_types"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "entity"
+      },
+      "Customs": {
+        "type": "object",
+        "properties": {
+          "purpose": {
+            "type": "string"
+          },
+          "terms_of_trade": {
+            "type": "string"
+          },
+          "eei": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "itn_number": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "itn_number"
+            ],
+            "x-apifox-orders": [
+              "type",
+              "itn_number"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "billing": {
+            "type": "object",
+            "properties": {
+              "paid_by": {
+                "type": "string"
+              },
+              "method": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "account_number": {
+                    "type": "string"
+                  },
+                  "postal_code": {
+                    "type": "string"
+                  },
+                  "country": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "account_number",
+                  "postal_code",
+                  "country"
+                ],
+                "x-apifox-orders": [
+                  "type",
+                  "account_number",
+                  "postal_code",
+                  "country"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            },
+            "required": [
+              "paid_by",
+              "method"
+            ],
+            "x-apifox-orders": [
+              "paid_by",
+              "method"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "importer_address": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "contact_name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "company_name": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "tax_id": {
+                "type": "string"
+              },
+              "eori_number": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "integer"
+                  },
+                  "lng": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-orders": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            },
+            "required": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-orders": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "passport": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string"
+              },
+              "issue_date": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "number",
+              "issue_date"
+            ],
+            "x-apifox-orders": [
+              "number",
+              "issue_date"
+            ],
+            "x-apifox-ignore-properties": []
+          }
+        },
+        "required": [
+          "purpose",
+          "terms_of_trade",
+          "eei",
+          "billing",
+          "importer_address",
+          "passport"
+        ],
+        "x-apifox-orders": [
+          "purpose",
+          "terms_of_trade",
+          "eei",
+          "billing",
+          "importer_address",
+          "passport"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "entity"
+      },
+      "Shipment": {
+        "type": "object",
+        "properties": {
+          "ship_from": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "contact_name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "company_name": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "tax_id": {
+                "type": "string"
+              },
+              "eori_number": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "integer"
+                  },
+                  "lng": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-orders": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            },
+            "required": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-orders": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "ship_to": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "contact_name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "company_name": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "tax_id": {
+                "type": "string"
+              },
+              "eori_number": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "integer"
+                  },
+                  "lng": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-orders": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            },
+            "required": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-orders": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "parcels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "box_type": {
+                  "type": "string"
+                },
+                "dimension": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-orders": [],
+                  "x-apifox-ignore-properties": []
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {},
+                    "x-apifox-orders": [],
+                    "x-apifox-ignore-properties": []
+                  }
+                },
+                "description": {
+                  "type": "string"
+                },
+                "weight": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-orders": [],
+                  "x-apifox-ignore-properties": []
+                }
+              },
+              "x-apifox-orders": [
+                "box_type",
+                "dimension",
+                "items",
+                "description",
+                "weight"
+              ],
+              "x-apifox-ignore-properties": []
+            }
+          },
+          "return_to": {
+            "type": "object",
+            "properties": {
+              "street": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "contact_name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "company_name": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "tax_id": {
+                "type": "string"
+              },
+              "eori_number": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "integer"
+                  },
+                  "lng": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-orders": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            },
+            "required": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-orders": [
+              "street",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "tax_id",
+              "eori_number",
+              "location"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "delivery_instructions": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ship_from",
+          "ship_to",
+          "parcels",
+          "return_to",
+          "delivery_instructions",
+          "type"
+        ],
+        "x-apifox-orders": [
+          "ship_from",
+          "ship_to",
+          "parcels",
+          "return_to",
+          "delivery_instructions",
+          "type"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "entity"
+      },
+      "ShipperAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street1": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "contact_name": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "company_name": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postal_code": {
+                "type": "string",
+                "description": "邮编"
+              },
+              "type": {
+                "type": "string"
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "lat": {
+                    "type": "integer"
+                  },
+                  "lng": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-orders": [
+                  "lat",
+                  "lng"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            },
+            "required": [
+              "street1",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "location"
+            ],
+            "x-apifox-orders": [
+              "street1",
+              "country",
+              "contact_name",
+              "phone",
+              "email",
+              "company_name",
+              "city",
+              "state",
+              "postal_code",
+              "type",
+              "location"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string",
+            "description": "承运商编号"
+          }
+        },
+        "required": [
+          "id",
+          "address",
+          "description",
+          "type",
+          "timezone",
+          "settings",
+          "created_at",
+          "updated_at",
+          "slug"
+        ],
+        "x-apifox-orders": [
+          "id",
+          "address",
+          "description",
+          "type",
+          "timezone",
+          "settings",
+          "created_at",
+          "updated_at",
+          "slug"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "entity"
+      }
+    }
+  },
+  "servers": []
+}
